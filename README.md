@@ -3,4 +3,4 @@
 # random-intropoem
 Dieses Paket übernimmt die Random-Flavourtext-Teil von Lilly.
 
-Die Dokumentation findet sich [hier](https://media.githubusercontent.com/media/EagleoutIce/random-intropoem/gh-pages/random-intropoem.pdf) and [here](https://github.com/EagleoutIce/random-intropoem/blob/gh-pages/random-intropoem.pdf).
+Die Dokumentation findet sich [hier](https://media.githubusercontent.com/media/EagleoutIce/random-intropoem/gh-pages/random-intropoem.pdf) und [hier](https://github.com/EagleoutIce/random-intropoem/blob/gh-pages/random-intropoem.pdf).
