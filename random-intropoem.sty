@@ -1,0 +1,118 @@
+ 
+%% random-intropoem.sty
+%%
+%% --------------------------------------------------------------------------
+%%
+%% Autor: Florian Sihler, 17.09.2020
+%%
+%% This package offers the random flavortext utility form lilly
+%%
+
+% All internal commands are prefixed by 'rip'
+
+\ProvidesPackage{random-intropoem}[2020/09/17 v1.0 flavortext port from lilly] 
+
+\RequirePackage{pgfmath}
+
+\newcounter{rip@text@counter}
+\setcounter{rip@text@counter}{0}
+
+\newlength{\rip@width}
+
+\def\RipWidth#1{\setlength{\rip@width}{#1}}
+\RipWidth{\linewidth}
+
+\long\def\rip@register@text#1#2#3#4{%
+    \stepcounter{rip@text@counter}%
+    \expandafter\long\expandafter\gdef\csname @rip@text@\therip@text@counter\endcsname{#1}
+    \expandafter\long\expandafter\gdef\csname @rip@name@\therip@text@counter\endcsname{#2}
+    \expandafter\long\expandafter\gdef\csname @rip@date@\therip@text@counter\endcsname{#3}
+    \expandafter\long\expandafter\gdef\csname @rip@author@\therip@text@counter\endcsname{#4}
+}
+
+
+
+% \def\rip@author#1{%
+%     \@rip@dividerstyle{\@rip@authorstyle{Florian Sihler}, #1}\par%%
+% }
+
+\rip@register@text{%
+and i promise you\ldots{} the time shall come and you will know\ldots\\
+the \emph{darkness will rise} and it will shatter everything below.\\
+you will know for the birds falling from the skies, \\
+you will know for the flames, reflecting in your eyes\\
+you will know there will be; no place to hide\\
+because when the darkness rise'\\
+It shall be the only thing alive.}
+{Text-Erbe des ersten Semesters}{23.12.2018}{Florian Sihler}
+
+
+\rip@register@text{%
+Und da waren sie wieder und tanzten im Mondlicht,\\
+Während um sie eine Welt voller Hohn ist,\\
+Es waren die Schritte, die sie verführten,\\
+Sie klammheimlich zueinander entführten\\
+Und da schlugen ihre Herzen wie die Füße im Takt,\\
+\hspace*{3.5em}- ein Glück, dass das Eis gehalten hat -}
+{Text-Erbe des zweiten Semester}{28.02.2019}{Florian Sihler}
+
+\rip@register@text{%
+Zitternd greift er die Feder, mühsam das letzte Blatt. \\
+Legt es auf den Einband aus Leder, mit dem alles begonnen hat.\medskip\\
+Er beginnt sein Werk zu vollenden, an diesem schönen Sommertag. \\
+Widmet die Worte den Enten, die er eben noch gesehen hat.}
+{Tagebuch}{04.08.2016}{Florian Sihler}
+
+\rip@register@text{%
+    Flucht. Atem gebrochen. \\
+    Fokus, das Ziel. Auf immer verflossen.\\
+    Leben im Eis. Leben als Schatten.\\
+    Leben in Freude, die wir niemals hatten.\\
+    Schattenspiele. Als Alltag aus Kristallen, \ldots}
+{Schattenspiele}{22.12.2015}{Florian Sihler}
+
+\rip@register@text{%
+\parbox{0.49\rip@width}{Rosafarben im Sonnenuntergang. \\
+Erstrahlt eine Stadt im Licht.\\
+Still steht sie Stundenlang,\\
+Erwacht mit jedem Pinselstrich.}\parbox{0.49\rip@width}{
+Geboren als Strich aus Graphit,\\
+Ein Grundstein gemalt auf Papier.\\
+Eine Stadt die es gar nicht gibt,\\
+Wurde als Zufluchtsort kreiert.}\\
+}{Ein Ölgemälde}{15.08.2016}{Florian Sihler}
+
+
+\def\GetMaxRip{\therip@text@counter}
+
+\def\GetRipText#1{\@nameuse{@rip@text@#1}}
+\def\GetRipAuthor#1{\@nameuse{@rip@author@#1}}
+\def\GetRipDate#1{\@nameuse{@rip@date@#1}}
+\def\GetRipName#1{\@nameuse{@rip@name@#1}}
+
+\def\RipParBox#1{\parbox{\rip@width}{#1}}
+\long\def\SetRipStyle#1{\long\gdef\rip@ripstyle{#1}}
+\SetRipStyle{%
+    \RipParBox{%
+        Aus \glqq{\ripname}\grqq{}:\smallskip\\%
+        \riptext%
+        \leavevmode\smallskip\\%
+    \itshape\ripauthor, \ripdate%
+}}
+
+\def\GetRip#1{%
+    \bgroup%
+    \def\riptext{\GetRipText{#1}}%
+    \def\ripauthor{\GetRipAuthor{#1}}%
+    \def\ripdate{\GetRipDate{#1}}%
+    \def\ripname{\GetRipName{#1}}%
+    \rip@ripstyle%
+    \egroup%
+}
+
+\def\GetRandomRip{%
+    \pgfmathrandominteger{\rip@rnd@tmp}{1}{\GetMaxRip}%
+    \GetRip{\rip@rnd@tmp}%
+}
+
+\endinput

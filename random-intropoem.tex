@@ -1,0 +1,124 @@
+\documentclass{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{microtype,array,hyperref,xcolor,pgffor,enumitem}
+\usepackage[main=ngerman,english]{babel}
+
+\definecolor{cgreen}{RGB}{85,170,0}
+
+\usepackage[a4paper,left=1.5cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+
+\usepackage{random-intropoem}
+
+\hypersetup{%
+    pdfborder=0 0 0,%
+    colorlinks=true,%
+    allcolors=cgreen!60!purple%
+}
+
+\usepackage{imakeidx}
+\makeindex[title=Befehlsübersicht,columns=2,columnsep=0.75cm]\renewcommand{\indexname}{Befehlsübersicht}
+
+\def\say#1{\glqq{#1}\grqq{}}
+
+\def\cmd#1{\texttt{\textcolor{cgreen}{\textbackslash#1}}}
+\def\cmdlink#1{\phantomsection\label{cmd:#1}\cmd{#1}}
+\def\cmdref#1{\hyperref[cmd:#1]{\cmd{#1}}}
+
+\def\arg#1{\textit{\textcolor{cgreen!90!white}{#1}}}
+\def\manArg#1{\texttt{\{\,\arg{#1}\,\}}}
+\def\optArg#1{\texttt{[\,\arg{#1}\,]}}
+
+\def\secref#1{\hyperref[#1]{\ref*{#1} \nameref*{#1}}}
+
+\long\def\imp#1{\emph{\textcolor{orange}{#1}}}
+
+\newenvironment{command}[3][v1.0]{\leavevmode\\[-\baselineskip]\hspace*{-1.75em}\index{#2@\cmdref{#2}}\cmdlink{#2}$\,$#3\hfill{}\texttt{#1}\nopagebreak\smallskip\\*}{\bigskip\par{}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35\baselineskip plus 0.15\baselineskip minus 0.05\baselineskip}
+
+\title{\textsf{\textcolor{orange}{\{}\textcolor{cgreen}{random-intropoem}\textcolor{orange}{\}}}}
+\author{Florian Sihler}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+   Dieses Paket übernimmt die Random-Flavourtext-Teil von Lilly.
+\end{abstract}
+
+\tableofcontents
+
+\section{Nutzermakros}
+
+\begin{command}{GetRip}{\manArg{num}}
+    Liefert den Text mit Nummer \arg{num}. Muss zwischen 1 und \GetMaxRip{} liegen. So liefert zum Beispiel der erste Text (zur Trennung wurde dieser mittels \cmd{fbox} umrahmt. Für die Breite siehe \cmdref{RipWidth}):\\
+    \fbox{\GetRip{1}}
+
+    Siehe \cmdref{GetMaxRip}, \cmdref{GetRandomRip} und \cmdref{SetRipStyle} für weitere Informationen.
+\end{command}
+
+\begin{command}{GetRipText}{\manArg{num}}
+    Liefert den Text für die Zahl zwischen 1 und \GetMaxRip{}.
+\end{command}
+
+\begin{command}{GetRipAuthor}{\manArg{num}}
+    Liefert den Autor für die Zahl zwischen 1 und \GetMaxRip{}.
+\end{command}
+
+\begin{command}{GetRipDate}{\manArg{num}}
+    Liefert das Datum für die Zahl zwischen 1 und \GetMaxRip{}.
+\end{command}
+
+\begin{command}{GetRipName}{\manArg{num}}
+    Liefert den Namen für die Zahl zwischen 1 und \GetMaxRip{}.
+\end{command}
+
+\begin{command}{GetMaxRip}{}
+    Liefert die maximale Anzahl an registrierten Texten (\GetMaxRip).
+\end{command}
+
+\begin{command}{GetRandomRip}{}
+    Liefert einen zufälligen Text mittels \cmdref{GetRip}. Beispiel (der Kasten wurde wieder mittels \cmd{fbox} gesetzt):\\
+    \fbox{\GetRandomRip}.
+\end{command}
+
+\begin{command}{SetRipStyle}{\manArg{stil}}
+Legt die Darstellung von \cmdref{GetRip} fest. Innerhalb können die Befehle \begin{itemize}[nolistsep]
+    \item \cmd{riptext} für den Text (\cmdref{GetRipText}),
+    \item \cmd{ripauthor} für den Autor (\cmdref{GetRipAuthor}),
+    \item \cmd{ripdate} für das Erstellungsdatum (\cmdref{GetRipDate}) und
+    \item \cmd{ripname} für den Namen des Textes (\cmdref{GetRipName})
+\end{itemize}
+verwendet werden. Die Standarddefinition ist die Folgende:\\
+\makeatletter%
+\def\clamp#1->#2\@nil{#2}
+\parbox{0.85\linewidth}{\ttfamily\expandafter\clamp\meaning\rip@ripstyle\@nil}%
+\makeatother%
+\end{command}
+
+\begin{command}{RipWidth}{\manArg{len}}
+    Setzt die Breite der gesetzten Texte.
+\end{command}
+
+\section{Versionierung}
+\subsection{Version 1.0}
+Grundlegende Kommandos hinzugefügt. Darunter: \cmdref{GetRipText} und \cmdref{GetRandomRipText}.
+
+\section{Alle Texte}
+
+\foreach\i in {1, ..., \GetMaxRip} {%
+\paragraph{Text \i}~\medskip\\
+\GetRip{\i}%
+}
+
+\clearpage\appendix
+\phantomsection\addcontentsline{toc}{section}{Befehlsübersicht}
+\printindex
+
+\end{document}
