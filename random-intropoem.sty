@@ -12,7 +12,8 @@
 
 \ProvidesPackage{random-intropoem}[2020/09/17 v1.0 flavortext port from lilly] 
 
-\RequirePackage{pgfmath}
+\RequirePackage{pgfmath,multicol}
+\pgfmathsetseed{\number\pdfrandomseed}
 
 \newcounter{rip@text@counter}
 \setcounter{rip@text@counter}{0}
@@ -21,6 +22,8 @@
 
 \def\RipWidth#1{\setlength{\rip@width}{#1}}
 \RipWidth{\linewidth}
+
+\def\RipAlign#1{\gdef\rip@align{#1}}
 
 \long\def\rip@register@text#1#2#3#4{%
     \stepcounter{rip@text@counter}%
@@ -32,6 +35,7 @@
 
 \providecommand{\say}[1]{\glqq{#1}\grqq}
 
+\newenvironment{rip@mc}[1][2]{\bgroup\setlength{\multicolsep}{0pt}\begin{multicols}{#1}}{\end{multicols}\egroup}
 
 
 % \def\rip@author#1{%
@@ -74,15 +78,17 @@ Schattenspiele. Als Alltag aus Kristallen, \ldots}
 {Schattenspiele}{22.12.2015}{Florian Sihler}
 
 \rip@register@text{%
-\parbox{0.49\rip@width}{Rosafarben im Sonnenuntergang. \\
+\begin{rip@mc}%
+Rosafarben im Sonnenuntergang. \\
 Erstrahlt eine Stadt im Licht.\\
 Still steht sie Stundenlang,\\
-Erwacht mit jedem Pinselstrich.}\parbox{0.49\rip@width}{
+Erwacht mit jedem Pinselstrich.\columnbreak\\
 Geboren als Strich aus Graphit,\\
 Ein Grundstein gemalt auf Papier.\\
 Eine Stadt die es gar nicht gibt,\\
-Wurde als Zufluchtsort kreiert.}\\
-}{Ein Ölgemälde}{15.08.2016}{Florian Sihler}
+Wurde als Zufluchtsort kreiert.%
+\end{rip@mc}}
+{Ein Ölgemälde}{15.08.2016}{Florian Sihler}
 
 \rip@register@text{%
 Die Erde schweigt, auch wenn sie innerlich zerbricht.\\
@@ -140,30 +146,33 @@ wie das der Harfe schlägt.}
 {Tanz}{12.08.2016}{Florian Sihler}
 
 \rip@register@text{%
-\parbox{0.49\rip@width}{\say{Die Raben kommen}\\
+\begin{rip@mc}%
+\say{Die Raben kommen}\\
 schallt es von den Dächern,\\
 \say{Habt ihrs vernommen?}\\
 Sie ernten nur Gelächter.\\
 Die einen fliehen.\\
-Die anderen bleiben.}\parbox{0.49\rip@width}{%
+Die anderen bleiben.\columnbreak\\%
 Die einen schrien,\\
 Die anderen schweigen.\\
 Während die Raben weiterziehen\\
 und sie vertreiben\\
-oder sich an ihnen weiden.}\\}
+oder sich an ihnen weiden.%
+\end{rip@mc}}
 {Von den Raben}{23.04.2017}{Florian Sihler}
 
 \rip@register@text{%
-\parbox{0.49\rip@width}{%
+\begin{rip@mc}%
 Die Sonne steht dort im Zenit\\
 wirft Schatten mit den Wolken\\
 und obwohl es Mammuts nicht\\
 mehr gibt,\\
-reden wir von solchen.}\parbox{0.49\rip@width}{%
+reden wir von solchen.\columnbreak\\%
 Wir, die wir schon längst,\\
 nach Hause hätten gehen sollen,\\
 sitzen hier und reden,\\
-weil wir doch noch bleiben wollen.}\\}
+weil wir doch noch bleiben wollen.%
+\end{rip@mc}}
 {Alltägliche Pendelfantasie}{20.10.2019}{Florian Sihler}
 
 \rip@register@text{%
@@ -174,11 +183,14 @@ der Blick geht zum Anfang aller Tage.}
 {Lachgeschichten}{25.02.2020}{Florian Sihler}
 
 \rip@register@text{%
-\parbox{0.49\rip@width}{Still und schweigsam hielt er,\\
+\begin{rip@mc}%
+Still und schweigsam hielt er,\\
 was das letzte Licht des\\
-Tages war.}\parbox{0.49\rip@width}{%
+Tages war.\columnbreak\\%
 Ein Tarotkartenspieler\\
-legt ihm aller Zukunft\\offen dar}\\}
+legt ihm aller Zukunft\\
+offen dar.%
+\end{rip@mc}}
 {Tarotkartenspieler}{3.07.2020}{Florian Sihler}
 
 
@@ -188,14 +200,16 @@ Alles Zukunft, wie noch eben.}
 {Tarotkartenspieler}{3.07.2020}{Florian Sihler}
 
 \rip@register@text{%
-\parbox{0.49\rip@width}{Falter fliegen frei dem Wind\\
+\begin{rip@mc}%
+Falter fliegen frei dem Wind\\
 und huldigen dem Flammenschein,\\
 Noten die hier fliegen,\\
-flattern niemals wieder Heim.}\parbox{0.49\rip@width}{%
+flattern niemals wieder Heim.\columnbreak\\%
 Und so bleibt es nur beim Wiegen\\
 und der Wind umsäumt den Hain\\
 und es legt sich zu den Toten, das\\
-was niemals hätte sollen sein.}\\}
+was niemals hätte sollen sein.%
+\end{rip@mc}}
 {Sieh, die Blumen sprießen}{3.08.2020}{Florian Sihler}
 
 \def\GetMaxRip{\therip@text@counter}
@@ -205,13 +219,13 @@ was niemals hätte sollen sein.}\\}
 \def\GetRipDate#1{\@nameuse{@rip@date@#1}}
 \def\GetRipName#1{\@nameuse{@rip@name@#1}}
 
-\def\RipParBox#1{\parbox{\rip@width}{#1}}
+\long\def\RipParBox#1{\parbox{\rip@width}{#1}}
 \long\def\SetRipStyle#1{\long\gdef\rip@ripstyle{#1}}
 \SetRipStyle{%
     \RipParBox{%
-        Aus \glqq{\ripname}\grqq{}:\smallskip\\%
+        Aus \glqq{\ripname}\grqq{}:\smallskip\par%
         \riptext%
-        \leavevmode\smallskip\\%
+        \smallskip\par%
     \itshape\ripauthor, \ripdate%
 }}
 
