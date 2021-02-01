@@ -1,40 +1,35 @@
 %% random-intropoem.sty
 %%
 %% --------------------------------------------------------------------------
-%%
-%% Autor: Florian Sihler, 17.09.2020
+%% Autor: Florian Sihler, 01.02.2021
 %%
 %% This package offers the random flavortext utility form lilly
-%%
+%& All internal commands are prefixed by 'rip'
 
-% All internal commands are prefixed by 'rip'
+\ProvidesPackage{random-intropoem}[2021/02/01 v1.1 flavortext port from lilly]
 
-\ProvidesPackage{random-intropoem}[2020/09/17 v1.0 flavortext port from lilly]
-
-\RequirePackage{pgfmath,multicol}
+\RequirePackage{pgfmath,multicol,csquotes}
 \pgfmathsetseed{\number\pdfrandomseed}
 
 \newcounter{rip@text@counter}
-\setcounter{rip@text@counter}{0}
-
 \newlength{\rip@width}
 
-\def\RipWidth#1{\setlength{\rip@width}{#1}}
+\newcommand*\RipWidth[1]{\setlength{\rip@width}{#1}}
 \RipWidth{\linewidth}
 
-\def\RipAlign#1{\gdef\rip@align{#1}}
+\newcommand*\RipAlign[1]{\gdef\rip@align{#1}}
 
 \long\def\rip@register@text#1#2#3#4{%
-    \stepcounter{rip@text@counter}%
-    \expandafter\long\expandafter\gdef\csname @rip@text@\therip@text@counter\endcsname{#1}
-    \expandafter\long\expandafter\gdef\csname @rip@name@\therip@text@counter\endcsname{#2}
-    \expandafter\long\expandafter\gdef\csname @rip@date@\therip@text@counter\endcsname{#3}
-    \expandafter\long\expandafter\gdef\csname @rip@author@\therip@text@counter\endcsname{#4}
+\stepcounter{rip@text@counter}%
+\expandafter\long\expandafter\gdef\csname @rip@text@\therip@text@counter\endcsname{#1}
+\expandafter\long\expandafter\gdef\csname @rip@name@\therip@text@counter\endcsname{#2}
+\expandafter\long\expandafter\gdef\csname @rip@date@\therip@text@counter\endcsname{#3}
+\expandafter\long\expandafter\gdef\csname @rip@author@\therip@text@counter\endcsname{#4}
 }
 
-\providecommand{\say}[1]{\glqq{#1}\grqq}
+\providecommand{\say}[1]{\enquote{#1}}
 
-\newenvironment{rip@mc}[1][2]{\bgroup\setlength{\multicolsep}{0pt}\begin{multicols}{#1}}{\end{multicols}\egroup}
+\newenvironment{rip@mc}[1][2]{\bgroup\multicolsep=\z@\begin{multicols}{#1}}{\end{multicols}\egroup}
 
 
 % \def\rip@author#1{%
@@ -50,7 +45,6 @@ you will know there will be; no place to hide\\
 because when the darkness rise'\\
 It shall be the only thing alive.}
 {Text-Erbe des ersten Semesters}{23.12.2018}{Florian Sihler}
-
 
 \rip@register@text{%
 Und da waren sie wieder und tanzten im Mondlicht,\\
@@ -221,36 +215,48 @@ schlagen kleine Herzen kalt.\\
 }
 {Eins}{10.09.2020}{Florian Sihler}
 
-\def\GetMaxRip{\therip@text@counter}
+\rip@register@text{%
+Haben wir denn doch noch sorgen,\\
+wollt ich eben grad erfragen.\\
+Ist es nicht die Welt von morgen,\\
+deren Sorgen wir vertagen.\medskip\\
+Gilt es noch was zu besorgen,\\
+oder eine Last zu tragen,\\
+Während Gestern heute schön,\\
+hab ich noch was abzuladen.
+}
+{Lastenzeit}{27.01.2021}{Florian Sihler}
 
-\def\GetRipText#1{\@nameuse{@rip@text@#1}}
-\def\GetRipAuthor#1{\@nameuse{@rip@author@#1}}
-\def\GetRipDate#1{\@nameuse{@rip@date@#1}}
-\def\GetRipName#1{\@nameuse{@rip@name@#1}}
+\newcommand*\GetMaxRip{\therip@text@counter}
 
-\long\def\RipParBox#1{\parbox{\rip@width}{#1}}
-\long\def\SetRipStyle#1{\long\gdef\rip@ripstyle{#1}}
+\newcommand*\GetRipText[1]{\@nameuse{@rip@text@#1}}
+\newcommand*\GetRipAuthor[1]{\@nameuse{@rip@author@#1}}
+\newcommand*\GetRipDate[1]{\@nameuse{@rip@date@#1}}
+\newcommand*\GetRipName[1]{\@nameuse{@rip@name@#1}}
+
+\newcommand\RipParBox[1]{\parbox{\rip@width}{#1}}
+\newcommand\SetRipStyle[1]{\long\gdef\rip@ripstyle{#1}}
 \SetRipStyle{%
-    \RipParBox{%
-        Aus \glqq{\ripname}\grqq{}:\smallskip\par%
-        \riptext%
-        \smallskip\par%
-    \itshape\ripauthor, \ripdate%
+\RipParBox{%
+    Aus \enquote{\ripname}:\smallskip\par%
+    \riptext%
+    \smallskip\par%
+\itshape\ripauthor, \ripdate%
 }}
 
-\def\GetRip#1{%
-    \bgroup%
-    \def\riptext{\GetRipText{#1}}%
-    \def\ripauthor{\GetRipAuthor{#1}}%
-    \def\ripdate{\GetRipDate{#1}}%
-    \def\ripname{\GetRipName{#1}}%
-    \rip@ripstyle%
-    \egroup%
+\newcommand*\GetRip[1]{%
+\bgroup%
+\def\riptext{\GetRipText{#1}}%
+\def\ripauthor{\GetRipAuthor{#1}}%
+\def\ripdate{\GetRipDate{#1}}%
+\def\ripname{\GetRipName{#1}}%
+\rip@ripstyle%
+\egroup%
 }
 
-\def\GetRandomRip{%
-    \pgfmathrandominteger{\rip@rnd@tmp}{1}{\GetMaxRip}%
-    \GetRip{\rip@rnd@tmp}%
+\newcommand*\GetRandomRip{%
+\pgfmathrandominteger{\rip@rnd@tmp}{1}{\GetMaxRip}%
+\GetRip{\rip@rnd@tmp}%
 }
 
 \endinput
