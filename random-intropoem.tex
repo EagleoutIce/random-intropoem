@@ -3,7 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
-\usepackage{microtype,array,hyperref,xcolor,pgffor,enumitem}
+\usepackage{microtype,array,xcolor,pgffor,enumitem}
 \usepackage[main=ngerman,english]{babel}
 
 
@@ -13,14 +13,17 @@
 
 \usepackage{random-intropoem}
 
+
+\usepackage{imakeidx}
+\makeindex[title=Befehlsübersicht,columns=2,columnsep=0.75cm]\renewcommand{\indexname}{Befehlsübersicht}
+
+\usepackage{hyperref}
+
 \hypersetup{%
     pdfborder=0 0 0,%
     colorlinks=true,%
     allcolors=cgreen!60!purple%
 }
-
-\usepackage{imakeidx}
-\makeindex[title=Befehlsübersicht,columns=2,columnsep=0.75cm]\renewcommand{\indexname}{Befehlsübersicht}
 
 \def\say#1{\glqq{#1}\grqq{}}
 
@@ -36,7 +39,7 @@
 
 \long\def\imp#1{\emph{\textcolor{orange}{#1}}}
 
-\newenvironment{command}[3][v1.0]{\leavevmode\\[-\baselineskip]\hspace*{-1.75em}\index{#2@\cmdref{#2}}\cmdlink{#2}$\,$#3\hfill{}\texttt{#1}\nopagebreak\smallskip\\*}{\bigskip\par{}}
+\newenvironment{command}[3][v1.0]{\leavevmode\\[-\baselineskip]\hspace*{-1.75em}\index{#2?\cmdref{#2}}\cmdlink{#2}$\,$#3\hfill{}\texttt{#1}\nopagebreak\smallskip\\*}{\bigskip\par{}}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.35\baselineskip plus 0.15\baselineskip minus 0.05\baselineskip}
