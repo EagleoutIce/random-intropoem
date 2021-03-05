@@ -29,7 +29,7 @@
 
 \providecommand{\say}[1]{\enquote{#1}}
 
-\newenvironment{rip@mc}[1][2]{\bgroup\multicolsep=\z@\begin{multicols}{#1}}{\end{multicols}\egroup}
+\newenvironment{rip@mc}[1][2]{\begingroup\multicolsep=\z@\begin{multicols}{#1}}{\end{multicols}\endgroup}
 
 
 % \def\rip@author#1{%
@@ -52,7 +52,7 @@ Während um sie eine Welt voller Hohn ist,\\
 Es waren die Schritte, die sie verführten,\\
 Sie klammheimlich zueinander entführten\\
 Und da schlugen ihre Herzen wie die Füße im Takt,\\
-\hspace*{3.5em}- ein Glück, dass das Eis gehalten hat -}
+\hspace*{3.45em}--~ein Glück, dass das Eis gehalten hat --}
 {Text-Erbe des zweiten Semesters}{28.02.2019}{Florian Sihler}
 
 \rip@register@text{%
@@ -238,20 +238,20 @@ hab ich noch was abzuladen.
 \newcommand\SetRipStyle[1]{\long\gdef\rip@ripstyle{#1}}
 \SetRipStyle{%
 \RipParBox{%
-    Aus \enquote{\ripname}:\smallskip\par%
-    \riptext%
-    \smallskip\par%
-\itshape\ripauthor, \ripdate%
+    Aus \enquote{\ripname}:\smallskip\par
+    \riptext
+    \smallskip\par
+\itshape\ripauthor, \ripdate
 }}
 
 \newcommand*\GetRip[1]{%
-\bgroup%
+\begingroup
 \def\riptext{\GetRipText{#1}}%
 \def\ripauthor{\GetRipAuthor{#1}}%
 \def\ripdate{\GetRipDate{#1}}%
 \def\ripname{\GetRipName{#1}}%
-\rip@ripstyle%
-\egroup%
+\rip@ripstyle
+\endgroup
 }
 
 \newcommand*\GetRandomRip{%
