@@ -1,49 +1,35 @@
 %% random-intropoem.sty
-%%
-%% --------------------------------------------------------------------------
 %% Autor: Florian Sihler, 01.02.2021
-%%
 %% This package offers the random flavortext utility form lilly
 %& All internal commands are prefixed by 'rip'
-
 \ProvidesPackage{random-intropoem}[2021/02/01 v1.1 flavortext port from lilly]
-
 \RequirePackage{pgfmath,multicol,csquotes}
 \pgfmathsetseed{\number\pdfrandomseed}
-
-\newcounter{rip@text@counter}
-\newlength{\rip@width}
+\newcount\c@rip@text@counter
+\newlength\rip@width
 
 \newcommand*\RipWidth[1]{\setlength{\rip@width}{#1}}
-\RipWidth{\linewidth}
+\RipWidth\linewidth
 
-\newcommand*\RipAlign[1]{\gdef\rip@align{#1}}
+\newcommand*\RipAlign[1]{\def\rip@align{#1}}
 
 \long\def\rip@register@text#1#2#3#4{%
-\stepcounter{rip@text@counter}%
-\expandafter\long\expandafter\gdef\csname @rip@text@\therip@text@counter\endcsname{#1}
-\expandafter\long\expandafter\gdef\csname @rip@name@\therip@text@counter\endcsname{#2}
-\expandafter\long\expandafter\gdef\csname @rip@date@\therip@text@counter\endcsname{#3}
-\expandafter\long\expandafter\gdef\csname @rip@author@\therip@text@counter\endcsname{#4}
-}
+\advance\c@rip@text@counter\@ne\relax
+\expandafter\long\expandafter\def\csname @rip@text@\number\c@rip@text@counter\endcsname{#1}
+\expandafter\long\expandafter\def\csname @rip@name@\number\c@rip@text@counter\endcsname{#2}
+\expandafter\long\expandafter\def\csname @rip@date@\number\c@rip@text@counter\endcsname{#3}
+\expandafter\long\expandafter\def\csname @rip@author@\number\c@rip@text@counter\endcsname{#4}}
 
 \providecommand{\say}[1]{\enquote{#1}}
-
-\newenvironment{rip@mc}[1][2]{\begingroup\multicolsep=\z@\begin{multicols}{#1}}{\end{multicols}\endgroup}
-
-
-% \def\rip@author#1{%
-%     \@rip@dividerstyle{\@rip@authorstyle{Florian Sihler}, #1}\par%%
-% }
+\newenvironment{rip@mc}[1][2]{\begingroup\multicolsep\z@\begin{multicols}{#1}}{\end{multicols}\endgroup}
 
 \rip@register@text{%
-and i promise you\ldots{} the time shall come and you will know\ldots\\
+and i promise you\ldots\ the time shall come and you will know\ldots\\
 the \emph{darkness will rise} and it will shatter everything below.\\
-you will know for the birds falling from the skies, \\
+you will know for the birds falling from the skies,\\
 you will know for the flames, reflecting in your eyes\\
 you will know there will be; no place to hide\\
-because when the darkness rise'\\
-It shall be the only thing alive.}
+because when the darkness rise'\\It shall be the only thing alive.}
 {Text-Erbe des ersten Semesters}{23.12.2018}{Florian Sihler}
 
 \rip@register@text{%
@@ -52,18 +38,18 @@ Während um sie eine Welt voller Hohn ist,\\
 Es waren die Schritte, die sie verführten,\\
 Sie klammheimlich zueinander entführten\\
 Und da schlugen ihre Herzen wie die Füße im Takt,\\
-\hspace*{3.45em}--~ein Glück, dass das Eis gehalten hat --}
+\hspace*{3.45em}--~ein Glück, dass das Eis gehalten hat~--}
 {Text-Erbe des zweiten Semesters}{28.02.2019}{Florian Sihler}
 
 \rip@register@text{%
-Zitternd greift er die Feder, mühsam das letzte Blatt. \\
+Zitternd greift er die Feder, mühsam das letzte Blatt.\\
 Legt es auf den Einband aus Leder, mit dem alles begonnen hat.\medskip\\
-Er beginnt sein Werk zu vollenden, an diesem schönen Sommertag. \\
+Er beginnt sein Werk zu vollenden, an diesem schönen Sommertag.\\
 Widmet die Worte den Enten, die er eben noch gesehen hat.}
 {Tagebuch}{04.08.2016}{Florian Sihler}
 
 \rip@register@text{%
-Flucht. Atem gebrochen. \\
+Flucht. Atem gebrochen.\\
 Fokus, das Ziel. Auf immer verflossen.\\
 Leben im Eis. Leben als Schatten.\\
 Leben in Freude, die wir niemals hatten.\\
@@ -72,53 +58,39 @@ Schattenspiele. Als Alltag aus Kristallen, \ldots}
 
 \rip@register@text{%
 \begin{rip@mc}%
-Rosafarben im Sonnenuntergang. \\
-Erstrahlt eine Stadt im Licht.\\
-Still steht sie Stundenlang,\\
-Erwacht mit jedem Pinselstrich.\columnbreak\\
-Geboren als Strich aus Graphit,\\
-Ein Grundstein gemalt auf Papier.\\
-Eine Stadt die es gar nicht gibt,\\
-Wurde als Zufluchtsort kreiert.%
+Rosafarben im Sonnenuntergang.\\Erstrahlt eine Stadt im Licht.\\
+Still steht sie Stundenlang,\\Erwacht mit jedem Pinselstrich.\columnbreak\\
+Geboren als Strich aus Graphit,\\Ein Grundstein gemalt auf Papier.\\
+Eine Stadt die es gar nicht gibt,\\Wurde als Zufluchtsort kreiert.%
 \end{rip@mc}}
 {Ein Ölgemälde}{15.08.2016}{Florian Sihler}
 
 \rip@register@text{%
-Die Erde schweigt, auch wenn sie innerlich zerbricht.\\
-Der Mensch schweigt auch wenn er innerlich zerbrochen ist.\\
-Die Natur schweigt, auch wenn sie nach und nach erlischt.\\
-Nur das Echo schreit, auch wenn alles andere zu Ende ist.}
+Die Erde schweigt, auch wenn sie innerlich zerbricht.\\Der Mensch schweigt auch wenn er innerlich zerbrochen ist.\\
+Die Natur schweigt, auch wenn sie nach und nach erlischt.\\Nur das Echo schreit, auch wenn alles andere zu Ende ist.}
 {Schweigen}{04.05.2015}{Florian Sihler}
 
 \rip@register@text{%
-Winde heulen, streicheln das Eis,\\
-Leer die Landschaft, die Bergen gleicht.\\
-Hier wo selbst die Geschichte verbleicht,\\
-Die Landschaft weiß, soweit das Auge reicht\ldots}
+Winde heulen, streicheln das Eis,\\Leer die Landschaft, die Bergen gleicht.\\
+Hier wo selbst die Geschichte verbleicht,\\Die Landschaft weiß, soweit das Auge reicht\ldots}
 {Kristallsplitter}{14.04.2016}{Florian Sihler}
 
 \rip@register@text{%
-Langsam und träge, es ist auf der Jagd,\\
-Schleicht seine Wege, summt eisenhart.\\
-Und als ob es noch läge, träumt es was war,\\
-Schon atmet es rege, den Tränen nah.}
+Langsam und träge, es ist auf der Jagd,\\Schleicht seine Wege, summt eisenhart.\\
+Und als ob es noch läge, träumt es was war,\\Schon atmet es rege, den Tränen nah.}
 {Pirsch}{29.04.2016}{Florian Sihler}
 
 \rip@register@text{%
-Die leeren Augen durchbohren dich.\\
-Sie ist tot, doch wie sie starb,\\
+Die leeren Augen durchbohren dich.\\Sie ist tot, doch wie sie starb,\\
 Das weißt du nicht.\smallskip\\
 %
-Die Raben haben sie gefunden und sie geschunden.\\
-Doch sind mit deinem Anblick, zurück,\\
+Die Raben haben sie gefunden und sie geschunden.\\Doch sind mit deinem Anblick, zurück,\\
 in ihre Welt verschwunden\ldots}
 {Die Raben}{04.07.2016}{Florian Sihler}
 
 \rip@register@text{%
-Ein Sonnenstrahl trocknet den Schweiß,\\
-Und vertreibt die Lieder.\\
-Die Geschichte aus dem Schattenreich,\\
-Ich höre sie immer wieder,\\
+Ein Sonnenstrahl trocknet den Schweiß,\\Und vertreibt die Lieder.\\
+Die Geschichte aus dem Schattenreich,\\Ich höre sie immer wieder,\\
 Singen von damals;\quad Am Bahnhofsgleis.}
 {Ein Sonnenstrahl}{12.08.2016}{Florian Sihler}
 
@@ -132,61 +104,44 @@ Im Licht dieser Welt hat dann wohl jeder seinen Platz.}
 \rip@register@text{%
 Mit dem Klang der ersten Note, wirkst du so grazil,\\
 Als Tänzer zwischen Licht und Schatten; vertieft im Liebesspiel.\\
-Du drehst und springst im Takt der Geige, \\
+Du drehst und springst im Takt der Geige,\\
 die dich durch die Bühne trägt\\
-Man merkt, wie mit jeder Saite, dein Herz, \\
+Man merkt, wie mit jeder Saite, dein Herz,\\
 wie das der Harfe schlägt.}
 {Tanz}{12.08.2016}{Florian Sihler}
 
 \rip@register@text{%
-\say{Die Raben kommen}\\
-schallt es von den Dächern,\\
-\say{Habt ihrs vernommen?}\\
-Sie ernten nur Gelächter.\\
-Die Einen fliehen.\\
-Die Andern' bleiben.\\%
-Die Einen schrien,\\
-Die Anderen schweigen.\\
-Während die Raben weiterziehen\\
-und sie vertreiben\\
-oder sich an ihnen weiden.%
-}
+\say{Die Raben kommen}\\schallt es von den Dächern,\\
+\say{Habt ihrs vernommen?}\\Sie ernten nur Gelächter.\\
+Die Einen fliehen.\\Die Andern' bleiben.\\
+Die Einen schrien,\\Die Anderen schweigen.\\
+Während die Raben weiterziehen\\und sie vertreiben\\
+oder sich an ihnen weiden.}
 {Von den Raben}{23.04.2017}{Florian Sihler}
 
 \rip@register@text{%
-Die Sonne steht dort im Zenit\\
-wirft Schatten mit den Wolken und\\
-obwohl es Mammuts nicht mehr gibt,\\
-reden wir von solchen.\medskip\\%
-Wir, die wir schon längst,\\
-nach Hause hätten gehen sollen,\\
-sitzen hier und reden,\\
-weil wir doch noch bleiben wollen.%
-}
+Die Sonne steht dort im Zenit\\wirft Schatten mit den Wolken und\\
+obwohl es Mammuts nicht mehr gibt,\\reden wir von solchen.\medskip\\
+Wir, die wir schon längst,\\nach Hause hätten gehen sollen,\\
+sitzen hier und reden,\\weil wir doch noch bleiben wollen.}
 {Alltägliche Pendelfantasie}{20.10.2019}{Florian Sihler}
 
 \rip@register@text{%
-Wehmutig tränkt der Schuhe alter Pfade,\\
-Schuld drückt die Sohlen in den Schlamm.\\
-Ledern läuft er barfuß, dann und wann,\\
-der Blick geht zum Anfang aller Tage.}
+Wehmutig tränkt der Schuhe alter Pfade,\\Schuld drückt die Sohlen in den Schlamm.\\
+Ledern läuft er barfuß, dann und wann,\\der Blick geht zum Anfang aller Tage.}
 {Lachgeschichten}{25.02.2020}{Florian Sihler}
 
 \rip@register@text{%
 \begin{rip@mc}%
-Still und schweigsam hielt er,\\
-was das letzte Licht des\\
-Tages war.\columnbreak\\%
-Ein Tarotkartenspieler\\
-legt ihm aller Zukunft\\
-offen dar.%
+Still und schweigsam hielt er,\\was das letzte Licht des\\
+Tages war.\columnbreak\\Ein Tarotkartenspieler\\
+legt ihm aller Zukunft\\offen dar.%
 \end{rip@mc}}
 {Tarotkartenspieler}{3.07.2020}{Florian Sihler}
 
 
 \rip@register@text{%
-Einen Tag lang, soll es wieder gestern sein.\\
-Alles Zukunft, wie noch eben.}
+Einen Tag lang, soll es wieder gestern sein.\\Alles Zukunft, wie noch eben.}
 {Tarotkartenspieler}{3.07.2020}{Florian Sihler}
 
 \rip@register@text{%
@@ -194,7 +149,7 @@ Alles Zukunft, wie noch eben.}
 Falter fliegen frei dem Wind\\
 und huldigen dem Flammenschein,\\
 Noten die hier fliegen,\\
-flattern niemals wieder Heim.\columnbreak\\%
+flattern niemals wieder Heim.\columnbreak\\
 Und so bleibt es nur beim Wiegen\\
 und der Wind umsäumt den Hain\\
 und es legt sich zu den Toten, das\\
@@ -203,44 +158,34 @@ was niemals hätte sollen sein.%
 {Sieh, die Blumen sprießen}{3.08.2020}{Florian Sihler}
 
 \rip@register@text{%
-Und bei all den Pflasterstraßen\\
-hielt die Wunde doch nicht lang.\\
-Dort wo all die Menschlein schlafen,\\
-fühlt man, zwängt man, sich zusammen.\\
+Und bei all den Pflasterstraßen\\hielt die Wunde doch nicht lang.\\
+Dort wo all die Menschlein schlafen,\\fühlt man, zwängt man, sich zusammen.\\
 
-Schmerzt das Leben auch so sehr,\\
-ertränk es in Asphalt.\\
-Arbeit gebend, flach und schwer,\\
-schlagen kleine Herzen kalt.\\
+Schmerzt das Leben auch so sehr,\\ertränk es in Asphalt.\\
+Arbeit gebend, flach und schwer,\\schlagen kleine Herzen kalt.\\
 }
 {Eins}{10.09.2020}{Florian Sihler}
 
 \rip@register@text{%
-Haben wir denn doch noch Sorgen,\\
-wollt ich eben grad erfragen.\\
-Ist es nicht die Welt von morgen,\\
-deren Sorgen wir vertagen.\medskip\\
-Gilt es noch was zu besorgen,\\
-oder eine Last zu tragen,\\
-Während Gestern heute schön,\\
-hab ich noch was abzuladen.
-}
+Haben wir denn doch noch Sorgen,\\wollt ich eben grad erfragen.\\
+Ist es nicht die Welt von morgen,\\deren Sorgen wir vertagen.\medskip\\
+Gilt es noch was zu besorgen,\\oder eine Last zu tragen,\\
+Während Gestern heute schön,\\hab ich noch was abzuladen.}
 {Lastenzeit}{27.01.2021}{Florian Sihler}
 
-\newcommand*\GetMaxRip{\therip@text@counter}
+\newcommand*\GetMaxRip{\number\c@rip@text@counter}
+\newcommand*\GetRipText[1]{\csname @rip@text@#1\endcsname}
+\newcommand*\GetRipAuthor[1]{\csname @rip@author@#1\endcsname}
+\newcommand*\GetRipDate[1]{\csname @rip@date@#1\endcsname}
+\newcommand*\GetRipName[1]{\csname @rip@name@#1\endcsname}
 
-\newcommand*\GetRipText[1]{\@nameuse{@rip@text@#1}}
-\newcommand*\GetRipAuthor[1]{\@nameuse{@rip@author@#1}}
-\newcommand*\GetRipDate[1]{\@nameuse{@rip@date@#1}}
-\newcommand*\GetRipName[1]{\@nameuse{@rip@name@#1}}
-
-\newcommand\RipParBox[1]{\parbox{\rip@width}{#1}}
-\newcommand\SetRipStyle[1]{\long\gdef\rip@ripstyle{#1}}
+\newcommand\RipParBox[1]{\parbox\rip@width{#1}}
+\newcommand\SetRipStyle[1]{\long\def\rip@ripstyle{#1}}
 \SetRipStyle{%
 \RipParBox{%
-    Aus \enquote{\ripname}:\smallskip\par
-    \riptext
-    \smallskip\par
+Aus \enquote{\ripname}:\smallskip\par
+\riptext
+\smallskip\par
 \itshape\ripauthor, \ripdate
 }}
 
@@ -250,13 +195,9 @@ hab ich noch was abzuladen.
 \def\ripauthor{\GetRipAuthor{#1}}%
 \def\ripdate{\GetRipDate{#1}}%
 \def\ripname{\GetRipName{#1}}%
-\rip@ripstyle
-\endgroup
-}
+\rip@ripstyle\endgroup}
 
 \newcommand*\GetRandomRip{%
-\pgfmathrandominteger{\rip@rnd@tmp}{1}{\GetMaxRip}%
-\GetRip{\rip@rnd@tmp}%
-}
-
+\pgfmathrandominteger\rip@rnd@tmp{1}\GetMaxRip
+\GetRip\rip@rnd@tmp}
 \endinput
